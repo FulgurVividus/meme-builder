@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { IKImage, IKUpload, ImageKitProvider } from "imagekitio-next";
 import { useState } from "react";
 
@@ -34,6 +35,7 @@ function Home() {
   return (
     <>
       <div className="">
+        <Button variant={"destructive"}>Click me</Button>
         <ImageKitProvider
           publicKey={publicKey}
           urlEndpoint={urlEndpoint}
