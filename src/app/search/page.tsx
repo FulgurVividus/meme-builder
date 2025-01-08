@@ -1,5 +1,4 @@
 import ImageKit from "imagekit";
-import { IKImage } from "imagekitio-next";
 import { unstable_noStore } from "next/cache";
 import ResultsList from "./results-list";
 
@@ -22,7 +21,9 @@ export default async function Search({
 
   return (
     <>
-      <div>
+      <div className="container mx-auto space-y-8 py-8">
+        <h1 className="text-4xl font-bold">Search Results</h1>
+
         <ResultsList files={files} />
       </div>
     </>
