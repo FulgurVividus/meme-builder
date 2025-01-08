@@ -7,6 +7,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
+import { ModeToggle } from "@/components/ui/mode-toggle";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
 import { CircleUser, Menu, Package2, Search } from "lucide-react";
@@ -38,7 +39,7 @@ export function Header() {
             <span className="sr-only">Toggle navigation menu</span>
           </Button>
         </SheetTrigger>
-        <SheetContent side="left" className="bg-gray-950">
+        <SheetContent side="left">
           <nav className="grid gap-6 text-lg font-medium">
             <Link
               href="#"
@@ -75,6 +76,7 @@ export function Header() {
             />
           </div>
         </form>
+        <ModeToggle />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="secondary" size="icon" className="rounded-full">
