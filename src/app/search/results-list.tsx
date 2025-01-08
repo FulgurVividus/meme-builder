@@ -6,11 +6,12 @@ import { urlEndpoint } from "../providers";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function ResultsList({ files }: { files: FileObject[] }) {
   return (
@@ -19,8 +20,9 @@ export default function ResultsList({ files }: { files: FileObject[] }) {
         {files?.map((file) => (
           <Card key={file.fileId}>
             <CardHeader>
-              <CardTitle>Card Title</CardTitle>
-              <CardDescription>Card Description</CardDescription>
+              <CardTitle>
+                {file.customMetadata?.displayName ?? file.name}
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <IKImage
@@ -32,7 +34,9 @@ export default function ResultsList({ files }: { files: FileObject[] }) {
               />
             </CardContent>
             <CardFooter>
-              <p>Card Footer</p>
+              <Button asChild>
+                <Link href={`/customize/${file.fileId}`}>Customize</Link>
+              </Button>
             </CardFooter>
           </Card>
         ))}
