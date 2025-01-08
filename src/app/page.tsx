@@ -26,16 +26,6 @@ function Home() {
 
         <div>
           <h2>File upload</h2>
-          <IKUpload
-            fileName="test-upload.png"
-            onError={(error) => {
-              console.log(error);
-            }}
-            onSuccess={(response) => {
-              console.log("success", response);
-              setFilePath(response.filePath);
-            }}
-          />
         </div>
       </div>
     </>
