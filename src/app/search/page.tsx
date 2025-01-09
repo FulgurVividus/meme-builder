@@ -1,7 +1,6 @@
 import ImageKit from "imagekit";
 import { unstable_noStore } from "next/cache";
 import ResultsList from "./results-list";
-import { Button } from "@/components/ui/button";
 import UploadMemeButton from "./upload-meme-button";
 
 const imagekit = new ImageKit({
@@ -18,7 +17,7 @@ export default async function Search({
   unstable_noStore();
 
   const files = await imagekit.listFiles({
-    searchQuery: `name:${searchParams.q}`,
+    searchQuery: `name:"${searchParams.q}"`,
   });
 
   return (
