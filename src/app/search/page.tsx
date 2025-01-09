@@ -16,8 +16,9 @@ export default async function Search({
 }) {
   unstable_noStore();
 
+  // TODO: fix
   const files = await imagekit.listFiles({
-    searchQuery: `name:"${searchParams.q}"`,
+    searchQuery: `"customMetadata.displayName":"${searchParams.q}"`,
   });
 
   return (
