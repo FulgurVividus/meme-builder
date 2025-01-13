@@ -8,8 +8,10 @@ import { Card } from "@/components/ui/card";
 
 export function TextOverlay({
   onUpdate,
+  index,
 }: {
   onUpdate: (text: string, x: number, y: number) => void;
+  index: number;
 }) {
   const [textOverlay, setTextOverlay] = useState<string>("");
   const [textOverlayXPosition, setTextOverlayXPosition] = useState<number>(0);
@@ -30,11 +32,11 @@ export function TextOverlay({
   return (
     <Card className="p-4 space-y-4">
       <div className="space-y-2">
-        <Label htmlFor="textOverlay1" className="font-semibold">
-          Text Overlay 1
+        <Label htmlFor={`textOverlay${index}`} className="font-semibold">
+          Text Overlay {index}
         </Label>
         <Input
-          id="textOverlay1"
+          id={`textOverlay${index}`}
           onChange={(e) => {
             setTextOverlay(e.target.value);
             onUpdate(e.target.value, xPositionDecimal, yPositionDecimal);
@@ -45,11 +47,11 @@ export function TextOverlay({
 
       {/* X - position */}
       <div className="space-y-2">
-        <Label htmlFor="text1XPosition" className="font-semibold">
-          Text 1 (X - Position)
+        <Label htmlFor={`text${index}XPosition`} className="font-semibold">
+          Text {index} (X - Position)
         </Label>
         <Slider
-          id="text1XPosition"
+          id={`text${index}XPosition`}
           value={[textOverlayXPosition]}
           onValueChange={([v]) => {
             setTextOverlayXPosition(v);
@@ -60,11 +62,11 @@ export function TextOverlay({
 
       {/* Y - position */}
       <div className="space-y-2">
-        <Label htmlFor="text1YPosition" className="font-semibold">
-          Text 1 (Y - Position)
+        <Label htmlFor={`text${index}YPosition`} className="font-semibold">
+          Text {index} (Y - Position)
         </Label>
         <Slider
-          id="text1YPosition"
+          id={`text${index}YPosition`}
           value={[textOverlayYPosition]}
           onValueChange={([v]) => {
             setTextOverlayYXPosition(v);
