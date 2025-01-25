@@ -3,7 +3,7 @@
 import { urlEndpoint } from "@/app/providers";
 import { FileObject } from "imagekit/dist/libs/interfaces";
 import { IKImage } from "imagekitio-next";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { TextOverlay } from "./text-overlay";
 import { Button } from "@/components/ui/button";
 
@@ -19,27 +19,28 @@ export function CustomizePanel({
 
   const transformationsArray = Object.values(transformations);
 
+  const onUpdate = useCallback(
+    (index: number, text: string, x: number, y: number, bgColor?: string) => {
+      if (text) {
+        setTransformations((current) => ({
+          ...current,
+          [`text${index}`]: {
+            raw: `l-text,i-${text ?? " "},${
+              bgColor ? `bg-${bgColor},pa-10,` : ""
+            }fs-15,ly-bw_mul_${y.toFixed(2)},lx-bw_mul_${x.toFixed(2)},l-end`,
+          },
+        }));
+      }
+    },
+    []
+  );
+
   return (
     <>
       <div className="grid grid-cols-2 gap-8">
         <div className="space-y-4">
           {new Array(numberOfOverlays).fill("").map((_, index) => (
-            <TextOverlay
-              key={index}
-              index={index + 1}
-              onUpdate={(text, x, y) => {
-                if (text) {
-                  setTransformations((current) => ({
-                    ...current,
-                    [`text${index}`]: {
-                      raw: `l-text,i-${text ?? " "},fs-15,ly-bw_mul_${y.toFixed(
-                        2
-                      )},lx-bw_mul_${x.toFixed(2)},l-end`,
-                    },
-                  }));
-                }
-              }}
-            />
+            <TextOverlay key={index} index={index + 1} onUpdate={onUpdate} />
           ))}
 
           <div className="flex gap-4">

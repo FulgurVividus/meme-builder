@@ -2,23 +2,37 @@
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Slider } from "@/components/ui/slider";
 import { Card } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { TwitterPicker } from "react-color";
 
 export function TextOverlay({
   onUpdate,
   index,
 }: {
-  onUpdate: (text: string, x: number, y: number) => void;
+  onUpdate: (
+    index: number,
+    text: string,
+    x: number,
+    y: number,
+    bgColor?: string
+  ) => void;
   index: number;
 }) {
-  const [textOverlay, setTextOverlay] = useState<string>("");
+  const [textOverlay, setTextOverlay] = useState<string>("HELLO");
   const [textOverlayXPosition, setTextOverlayXPosition] = useState<number>(0);
   const [textOverlayYPosition, setTextOverlayYXPosition] = useState<number>(0);
+  const [applyTextBackground, setApplyTextBackground] =
+    useState<boolean>(false);
+  const [textBgColor, setTextBgColor] = useState<string>("#FFFFFF");
 
   const xPositionDecimal: number = textOverlayXPosition / 100;
   const yPositionDecimal: number = textOverlayYPosition / 100;
+  const bgColor = applyTextBackground
+    ? textBgColor.replace("#", "")
+    : undefined;
 
   const transformations = [];
   if (textOverlay) {
@@ -29,20 +43,77 @@ export function TextOverlay({
     });
   }
 
+  useEffect(
+    function () {
+      onUpdate(index, textOverlay, xPositionDecimal, yPositionDecimal, bgColor);
+    },
+    [index, textOverlay, xPositionDecimal, yPositionDecimal, bgColor, onUpdate]
+  );
+
   return (
     <Card className="p-4 space-y-4">
-      <div className="space-y-2">
-        <Label htmlFor={`textOverlay${index}`} className="font-semibold">
-          Text Overlay {index}
-        </Label>
-        <Input
-          id={`textOverlay${index}`}
-          onChange={(e) => {
-            setTextOverlay(e.target.value);
-            onUpdate(e.target.value, xPositionDecimal, yPositionDecimal);
-          }}
-          value={textOverlay}
-        />
+      <div className="flex justify-between gap-8">
+        <div className="flex-grow">
+          <Label htmlFor={`textOverlay${index}`} className="font-semibold">
+            Text Overlay {index}
+          </Label>
+          <Input
+            id={`textOverlay${index}`}
+            onChange={(e) => {
+              setTextOverlay(e.target.value);
+              onUpdate(
+                index,
+                e.target.value,
+                xPositionDecimal,
+                yPositionDecimal,
+                bgColor
+              );
+            }}
+            value={textOverlay}
+          />
+        </div>
+
+        <div className="flex items-center space-x-2 flex-col space-y-4">
+          <div className="flex gap-4">
+            <Checkbox
+              onCheckedChange={(v) => {
+                setApplyTextBackground(v as boolean);
+                onUpdate(
+                  index,
+                  textOverlay,
+                  xPositionDecimal,
+                  yPositionDecimal,
+                  applyTextBackground ? textBgColor.replace("#", "") : undefined
+                );
+              }}
+              id="terms"
+            />
+            <label
+              htmlFor="terms"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Apply text background
+            </label>
+          </div>
+
+          {applyTextBackground && (
+            <TwitterPicker
+              color={textBgColor}
+              onChange={(value) => {
+                setTextBgColor(value.hex);
+                onUpdate(
+                  index,
+                  textOverlay,
+                  xPositionDecimal,
+                  yPositionDecimal,
+                  applyTextBackground ? value.hex.replace("#", "") : undefined
+                );
+              }}
+            />
+          )}
+
+          {textBgColor}
+        </div>
       </div>
 
       {/* X - position */}
@@ -55,7 +126,7 @@ export function TextOverlay({
           value={[textOverlayXPosition]}
           onValueChange={([v]) => {
             setTextOverlayXPosition(v);
-            onUpdate(textOverlay, v / 100, yPositionDecimal);
+            onUpdate(index, textOverlay, v / 100, yPositionDecimal, bgColor);
           }}
         />
       </div>
@@ -70,7 +141,7 @@ export function TextOverlay({
           value={[textOverlayYPosition]}
           onValueChange={([v]) => {
             setTextOverlayYXPosition(v);
-            onUpdate(textOverlay, xPositionDecimal, v / 100);
+            onUpdate(index, textOverlay, xPositionDecimal, v / 100, bgColor);
           }}
         />
       </div>
