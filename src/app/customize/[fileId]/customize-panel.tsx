@@ -6,6 +6,7 @@ import { IKImage } from "imagekitio-next";
 import { useCallback, useState } from "react";
 import { TextOverlay } from "./text-overlay";
 import { Button } from "@/components/ui/button";
+import { debounce } from "lodash";
 
 export function CustomizePanel({
   file,
@@ -20,8 +21,8 @@ export function CustomizePanel({
   const transformationsArray = Object.values(transformations);
 
   const onUpdate = useCallback(
-    (index: number, text: string, x: number, y: number, bgColor?: string) => {
-      if (text) {
+    debounce(
+      (index: number, text: string, x: number, y: number, bgColor?: string) => {
         setTransformations((current) => ({
           ...current,
           [`text${index}`]: {
@@ -30,8 +31,9 @@ export function CustomizePanel({
             }fs-15,ly-bw_mul_${y.toFixed(2)},lx-bw_mul_${x.toFixed(2)},l-end`,
           },
         }));
-      }
-    },
+      },
+      250
+    ),
     []
   );
 
