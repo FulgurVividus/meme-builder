@@ -7,23 +7,28 @@ import { useCallback, useState } from "react";
 import { TextOverlay } from "./text-overlay";
 import { Button } from "@/components/ui/button";
 import { debounce } from "lodash";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Card } from "@/components/ui/card";
 
 export function CustomizePanel({
   file,
 }: {
   file: Pick<FileObject, "filePath" | "name">;
 }) {
-  const [transformations, setTransformations] = useState<
+  const [textTransformations, setTextTransformations] = useState<
     Record<string, { raw: string }>
   >({});
   const [numberOfOverlays, setNumberOfOverlays] = useState<number>(1);
+  const [blur, setBlur] = useState<boolean>(false);
+  const [sharpen, setSharpen] = useState<boolean>(false);
+  const [grayscale, setGrayscale] = useState<boolean>(false);
 
-  const transformationsArray = Object.values(transformations);
+  const textTransformationsArray = Object.values(textTransformations);
 
   const onUpdate = useCallback(
     debounce(
       (index: number, text: string, x: number, y: number, bgColor?: string) => {
-        setTransformations((current) => ({
+        setTextTransformations((current) => ({
           ...current,
           [`text${index}`]: {
             raw: `l-text,i-${text ?? " "},${
@@ -41,6 +46,60 @@ export function CustomizePanel({
     <>
       <div className="grid grid-cols-2 gap-8">
         <div className="space-y-4">
+          <div>
+            <Card className="p-4 space-y-4">
+              <h2 className="text-xl">Effects</h2>
+
+              <div className="flex gap-4">
+                <div className="flex gap-2">
+                  <Checkbox
+                    checked={blur}
+                    onCheckedChange={(v) => {
+                      setBlur(v as boolean);
+                    }}
+                    id="blur"
+                  />
+                  <label
+                    htmlFor="blur"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    Blur
+                  </label>
+                </div>
+                <div className="flex gap-2">
+                  <Checkbox
+                    checked={sharpen}
+                    onCheckedChange={(v) => {
+                      setSharpen(v as boolean);
+                    }}
+                    id="sharpen"
+                  />
+                  <label
+                    htmlFor="sharpen"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    Sharpen
+                  </label>
+                </div>
+                <div className="flex gap-2">
+                  <Checkbox
+                    checked={grayscale}
+                    onCheckedChange={(v) => {
+                      setGrayscale(v as boolean);
+                    }}
+                    id="grayscale"
+                  />
+                  <label
+                    htmlFor="grayscale"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    Grayscale
+                  </label>
+                </div>
+              </div>
+            </Card>
+          </div>
+
           {new Array(numberOfOverlays).fill("").map((_, index) => (
             <TextOverlay key={index} index={index + 1} onUpdate={onUpdate} />
           ))}
@@ -59,7 +118,7 @@ export function CustomizePanel({
               onClick={() => {
                 setNumberOfOverlays(numberOfOverlays - 1);
                 const lastIndex = numberOfOverlays - 1;
-                setTransformations((curr) => {
+                setTextTransformations((curr) => {
                   const newCurr = { ...curr };
                   delete newCurr[`text${lastIndex}`];
                   return newCurr;
@@ -75,7 +134,14 @@ export function CustomizePanel({
           path={file.filePath}
           urlEndpoint={urlEndpoint}
           alt={file.name}
-          transformation={transformationsArray}
+          transformation={
+            [
+              blur ? { raw: "bl-3" } : undefined,
+              sharpen ? { raw: "e-sharpen-10" } : undefined,
+              grayscale ? { raw: "e-grayscale" } : undefined,
+              ...textTransformationsArray,
+            ].filter(Boolean) as any
+          }
         />
       </div>
     </>

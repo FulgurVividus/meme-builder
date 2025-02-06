@@ -111,8 +111,6 @@ export function TextOverlay({
               }}
             />
           )}
-
-          {textBgColor}
         </div>
       </div>
 
