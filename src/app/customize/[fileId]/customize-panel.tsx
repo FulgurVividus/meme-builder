@@ -9,6 +9,13 @@ import { Button } from "@/components/ui/button";
 import { debounce } from "lodash";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card } from "@/components/ui/card";
+import { Download } from "lucide-react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 export function CustomizePanel({
   file,
@@ -44,6 +51,36 @@ export function CustomizePanel({
 
   return (
     <>
+      <div className="flex justify-between items-center">
+        <h1 className="text-4xl font-bold">Customize</h1>
+
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                onClick={async () => {
+                  const image = document.querySelector("#meme img");
+                  const src = image?.getAttribute("src");
+
+                  if (!src) return;
+                  const imageResponse = await fetch(src);
+                  const imageBlob = await imageResponse.blob();
+                  const imageUrl = URL.createObjectURL(imageBlob);
+                  const a = document.createElement("a");
+                  a.href = imageUrl;
+                  a.download = file.name;
+                  a.click();
+                }}
+              >
+                <Download />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Download the meme</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      </div>
       <div className="grid grid-cols-2 gap-8">
         <div className="space-y-4">
           <div>
@@ -130,19 +167,23 @@ export function CustomizePanel({
           </div>
         </div>
 
-        <IKImage
-          path={file.filePath}
-          urlEndpoint={urlEndpoint}
-          alt={file.name}
-          transformation={
-            [
-              blur ? { raw: "bl-3" } : undefined,
-              sharpen ? { raw: "e-sharpen-10" } : undefined,
-              grayscale ? { raw: "e-grayscale" } : undefined,
-              ...textTransformationsArray,
-            ].filter(Boolean) as any
-          }
-        />
+        <div className="flex flex-col gap-4">
+          <div id="meme">
+            <IKImage
+              path={file.filePath}
+              urlEndpoint={urlEndpoint}
+              alt={file.name}
+              transformation={
+                [
+                  blur ? { raw: "bl-3" } : undefined,
+                  sharpen ? { raw: "e-sharpen-10" } : undefined,
+                  grayscale ? { raw: "e-grayscale" } : undefined,
+                  ...textTransformationsArray,
+                ].filter(Boolean) as any
+              }
+            />
+          </div>
+        </div>
       </div>
     </>
   );
