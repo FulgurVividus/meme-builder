@@ -2,22 +2,17 @@ import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
 import { CircleUser, Menu, Package2, Search } from "lucide-react";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import SearchInput from "./search-input";
-import { auth, signIn } from "@/auth";
+import { auth, signIn, signOut } from "@/auth";
 
 export async function Header() {
-  const session = await auth();
-
   return (
     <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6">
       <nav className="hidden flex-col gap-6 text-lg font-medium md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
@@ -112,12 +107,14 @@ async function AccountMenu() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>Settings</DropdownMenuItem>
-        <DropdownMenuItem>Support</DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>Logout</DropdownMenuItem>
+        <form
+          action={async () => {
+            "use server";
+            await signOut();
+          }}
+        >
+          <button type="submit">Sign out</button>
+        </form>
       </DropdownMenuContent>
     </DropdownMenu>
   );
