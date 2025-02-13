@@ -1,26 +1,31 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { urlEndpoint } from "@/app/providers";
-import { FileObject } from "imagekit/dist/libs/interfaces";
-import { IKImage } from "imagekitio-next";
-import { useCallback, useState } from "react";
-import { TextOverlay } from "./text-overlay";
 import { Button } from "@/components/ui/button";
-import { debounce } from "lodash";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Card } from "@/components/ui/card";
-import { Download } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { FileObject } from "imagekit/dist/libs/interfaces";
+import { IKImage } from "imagekitio-next";
+import { debounce } from "lodash";
+import { Download, Heart } from "lucide-react";
+import { HeartFilledIcon } from "@radix-ui/react-icons";
+import { useCallback, useState } from "react";
+import { toggleFavoriteMemeAction } from "./actions";
+import { TextOverlay } from "./text-overlay";
 
 export function CustomizePanel({
   file,
+  isFavorited,
 }: {
-  file: Pick<FileObject, "filePath" | "name">;
+  file: Pick<FileObject, "filePath" | "name" | "fileId">;
+  isFavorited: boolean;
 }) {
   const [textTransformations, setTextTransformations] = useState<
     Record<string, { raw: string }>
@@ -54,33 +59,55 @@ export function CustomizePanel({
       <div className="flex justify-between items-center">
         <h1 className="text-4xl font-bold">Customize</h1>
 
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                onClick={async () => {
-                  const image = document.querySelector("#meme img");
-                  const src = image?.getAttribute("src");
+        <div className="flex items-center justify-end gap-4">
+          {/* Favorite button */}
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <form action={toggleFavoriteMemeAction.bind(null, file.fileId)}>
+                  <Button type="submit" variant="outline">
+                    {!isFavorited ? <Heart /> : <HeartFilledIcon />}
+                  </Button>
+                </form>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>
+                  {!isFavorited ? "Favorite the meme" : "Unfavorite the meme"}
+                </p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
 
-                  if (!src) return;
-                  const imageResponse = await fetch(src);
-                  const imageBlob = await imageResponse.blob();
-                  const imageUrl = URL.createObjectURL(imageBlob);
-                  const a = document.createElement("a");
-                  a.href = imageUrl;
-                  a.download = file.name;
-                  a.click();
-                }}
-              >
-                <Download />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Download the meme</p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+          {/* Download button */}
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  onClick={async () => {
+                    const image = document.querySelector("#meme img");
+                    const src = image?.getAttribute("src");
+
+                    if (!src) return;
+                    const imageResponse = await fetch(src);
+                    const imageBlob = await imageResponse.blob();
+                    const imageUrl = URL.createObjectURL(imageBlob);
+                    const a = document.createElement("a");
+                    a.href = imageUrl;
+                    a.download = file.name;
+                    a.click();
+                  }}
+                >
+                  <Download />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Download the meme</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
       </div>
+
       <div className="grid grid-cols-2 gap-8">
         <div className="space-y-4">
           <div>
