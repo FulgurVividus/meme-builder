@@ -25,10 +25,16 @@ export async function Header() {
         </Link>
 
         <Link
-          href="#"
+          href="/search?q="
           className="text-muted-foreground transition-colors hover:text-foreground"
         >
-          Dashboard
+          Browse
+        </Link>
+        <Link
+          href="/favorites"
+          className="text-muted-foreground transition-colors hover:text-foreground"
+        >
+          Favorites
         </Link>
       </nav>
 
@@ -50,10 +56,16 @@ export async function Header() {
               <span className="sr-only">Acme Inc</span>
             </Link>
             <Link
-              href="#"
+              href="search?q="
               className="text-muted-foreground hover:text-foreground"
             >
-              Dashboard
+              Browse
+            </Link>
+            <Link
+              href="/favorites"
+              className="text-muted-foreground hover:text-foreground"
+            >
+              Favorites
             </Link>
           </nav>
         </SheetContent>

@@ -14,11 +14,10 @@ import {
 import { FileObject } from "imagekit/dist/libs/interfaces";
 import { IKImage } from "imagekitio-next";
 import { debounce } from "lodash";
-import { Download, Heart } from "lucide-react";
-import { HeartFilledIcon } from "@radix-ui/react-icons";
+import { Download } from "lucide-react";
 import { useCallback, useState } from "react";
-import { toggleFavoriteMemeAction } from "./actions";
 import { TextOverlay } from "./text-overlay";
+import FavoriteButton from "./favorite-button";
 
 export function CustomizePanel({
   file,
@@ -61,22 +60,12 @@ export function CustomizePanel({
 
         <div className="flex items-center justify-end gap-4">
           {/* Favorite button */}
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <form action={toggleFavoriteMemeAction.bind(null, file.fileId)}>
-                  <Button type="submit" variant="outline">
-                    {!isFavorited ? <Heart /> : <HeartFilledIcon />}
-                  </Button>
-                </form>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>
-                  {!isFavorited ? "Favorite the meme" : "Unfavorite the meme"}
-                </p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <FavoriteButton
+            fileId={file.fileId}
+            filePath={file.filePath}
+            isFavorited={isFavorited}
+            pathToRevalidate={`/customize/${file.fileId}`}
+          />
 
           {/* Download button */}
           <TooltipProvider>
