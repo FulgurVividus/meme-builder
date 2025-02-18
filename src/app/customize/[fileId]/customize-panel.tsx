@@ -22,9 +22,11 @@ import FavoriteButton from "./favorite-button";
 export function CustomizePanel({
   file,
   isFavorited,
+  isAuthenticated,
 }: {
   file: Pick<FileObject, "filePath" | "name" | "fileId">;
   isFavorited: boolean;
+  isAuthenticated: boolean;
 }) {
   const [textTransformations, setTextTransformations] = useState<
     Record<string, { raw: string }>
@@ -60,12 +62,14 @@ export function CustomizePanel({
 
         <div className="flex items-center justify-end gap-4">
           {/* Favorite button */}
-          <FavoriteButton
-            fileId={file.fileId}
-            filePath={file.filePath}
-            isFavorited={isFavorited}
-            pathToRevalidate={`/customize/${file.fileId}`}
-          />
+          {isAuthenticated && (
+            <FavoriteButton
+              fileId={file.fileId}
+              filePath={file.filePath}
+              isFavorited={isFavorited}
+              pathToRevalidate={`/customize/${file.fileId}`}
+            />
+          )}
 
           {/* Download button */}
           <TooltipProvider>
@@ -166,20 +170,22 @@ export function CustomizePanel({
               Add Another Overlay
             </Button>
 
-            <Button
-              variant={"destructive"}
-              onClick={() => {
-                setNumberOfOverlays(numberOfOverlays - 1);
-                const lastIndex = numberOfOverlays - 1;
-                setTextTransformations((curr) => {
-                  const newCurr = { ...curr };
-                  delete newCurr[`text${lastIndex}`];
-                  return newCurr;
-                });
-              }}
-            >
-              Remove Last
-            </Button>
+            {numberOfOverlays > 1 && (
+              <Button
+                variant={"destructive"}
+                onClick={() => {
+                  setNumberOfOverlays(numberOfOverlays - 1);
+                  const lastIndex = numberOfOverlays - 1;
+                  setTextTransformations((curr) => {
+                    const newCurr = { ...curr };
+                    delete newCurr[`text${lastIndex}`];
+                    return newCurr;
+                  });
+                }}
+              >
+                Remove Last
+              </Button>
+            )}
           </div>
         </div>
 

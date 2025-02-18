@@ -21,7 +21,7 @@ export function TextOverlay({
   ) => void;
   index: number;
 }) {
-  const [textOverlay, setTextOverlay] = useState<string>("HELLO");
+  const [textOverlay, setTextOverlay] = useState<string>("");
   const [textOverlayXPosition, setTextOverlayXPosition] = useState<number>(0);
   const [textOverlayYPosition, setTextOverlayYXPosition] = useState<number>(0);
   const [applyTextBackground, setApplyTextBackground] =
@@ -45,7 +45,13 @@ export function TextOverlay({
 
   useEffect(
     function () {
-      onUpdate(index, textOverlay, xPositionDecimal, yPositionDecimal, bgColor);
+      onUpdate(
+        index,
+        textOverlay || " ",
+        xPositionDecimal,
+        yPositionDecimal,
+        bgColor
+      );
     },
     [index, textOverlay, xPositionDecimal, yPositionDecimal, bgColor, onUpdate]
   );
