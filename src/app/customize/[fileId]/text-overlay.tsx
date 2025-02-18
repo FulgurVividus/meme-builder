@@ -58,7 +58,7 @@ export function TextOverlay({
 
   return (
     <Card className="p-4 space-y-4">
-      <div className="flex justify-between gap-8">
+      <div className="flex justify-between flex-wrap gap-8">
         <div className="flex-grow">
           <Label htmlFor={`textOverlay${index}`} className="font-semibold">
             Text Overlay {index}

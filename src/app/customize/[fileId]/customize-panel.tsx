@@ -107,7 +107,7 @@ export function CustomizePanel({
             <Card className="p-4 space-y-4">
               <h2 className="text-xl">Effects</h2>
 
-              <div className="flex gap-4">
+              <div className="flex items-center flex-wrap gap-4">
                 <div className="flex gap-2">
                   <Checkbox
                     checked={blur}
