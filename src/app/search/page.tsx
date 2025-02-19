@@ -2,6 +2,7 @@ import { unstable_noStore } from "next/cache";
 import ResultsList from "./results-list";
 import UploadMemeButton from "./upload-meme-button";
 import { imagekit } from "../_lib/image-kit";
+import { getFavoriteCounts } from "./loader";
 
 export default async function Search({
   searchParams,
@@ -15,6 +16,10 @@ export default async function Search({
     searchQuery: `"customMetadata.displayName":"${searchParams.q}"`,
   });
 
+  const favoriteCounts = await getFavoriteCounts(
+    files.map((file) => file.fileId)
+  );
+
   return (
     <>
       <div className="container mx-auto space-y-8 py-8 px-4">
@@ -23,7 +28,7 @@ export default async function Search({
           <UploadMemeButton />
         </div>
 
-        <ResultsList files={files} />
+        <ResultsList files={files} counts={favoriteCounts} />
       </div>
     </>
   );
