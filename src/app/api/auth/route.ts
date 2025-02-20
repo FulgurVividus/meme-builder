@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
 
   const privateAPIKey = privateKey;
   const signature = crypto
-    .createHmac("sha1", privateAPIKey)
+    .createHmac("sha1", privateAPIKey || "")
     .update(token + expire)
     .digest("hex");
 

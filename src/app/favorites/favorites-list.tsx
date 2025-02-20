@@ -18,11 +18,6 @@ export default function FavoritesList({
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
         {favorites?.map((favorite) => (
           <Card key={favorite.memeId}>
-            {/* <CardHeader>
-              <CardTitle>
-                {file.customMetadata?.displayName ?? file.name}
-              </CardTitle>
-            </CardHeader> */}
             <CardContent>
               <IKImage
                 key={favorite.memeId}
