@@ -3,6 +3,12 @@ import { unstable_noStore } from "next/cache";
 import { CustomizePanel } from "./customize-panel";
 import { getFavoriteMeme } from "./loaders";
 import { auth } from "@/auth";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Customize meme",
+  description: "Page where you can easily customize a meme",
+};
 
 export default async function CustomizePage({
   params,

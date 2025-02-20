@@ -6,6 +6,12 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Card } from "@/components/ui/card";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Favorites",
+  description: "Favorites page, the memes that you liked",
+};
 
 export default async function FavoritesPage() {
   unstable_noStore();

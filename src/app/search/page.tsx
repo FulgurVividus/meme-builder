@@ -3,6 +3,12 @@ import ResultsList from "./results-list";
 import UploadMemeButton from "./upload-meme-button";
 import { imagekit } from "../_lib/image-kit";
 import { getFavoriteCounts } from "./loader";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Search",
+  description: "Search page for search the memes",
+};
 
 export default async function Search({
   searchParams,
