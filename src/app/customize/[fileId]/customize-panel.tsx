@@ -18,6 +18,7 @@ import { Download } from "lucide-react";
 import { useCallback, useState } from "react";
 import { TextOverlay } from "./text-overlay";
 import FavoriteButton from "./favorite-button";
+import { paymentAction } from "./actions";
 
 export function CustomizePanel({
   file,
@@ -31,6 +32,7 @@ export function CustomizePanel({
   const [textTransformations, setTextTransformations] = useState<
     Record<string, { raw: string }>
   >({});
+
   const [numberOfOverlays, setNumberOfOverlays] = useState<number>(1);
   const [blur, setBlur] = useState<boolean>(false);
   const [sharpen, setSharpen] = useState<boolean>(false);
@@ -72,32 +74,32 @@ export function CustomizePanel({
           )}
 
           {/* Download button */}
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  onClick={async () => {
-                    const image = document.querySelector("#meme img");
-                    const src = image?.getAttribute("src");
+          {isAuthenticated && (
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <form action={paymentAction}>
+                    <input type="hidden" name="price" value={0.5} />
+                    <Button
+                      onClick={() => {
+                        const image = document.querySelector("#meme img");
+                        const src = image?.getAttribute("src");
 
-                    if (!src) return;
-                    const imageResponse = await fetch(src);
-                    const imageBlob = await imageResponse.blob();
-                    const imageUrl = URL.createObjectURL(imageBlob);
-                    const a = document.createElement("a");
-                    a.href = imageUrl;
-                    a.download = file.name;
-                    a.click();
-                  }}
-                >
-                  <Download />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Download the meme</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+                        if (src) {
+                          localStorage.setItem("memeSrc", src);
+                        }
+                      }}
+                    >
+                      <Download />
+                    </Button>
+                  </form>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Download the meme</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          )}
         </div>
       </div>
 

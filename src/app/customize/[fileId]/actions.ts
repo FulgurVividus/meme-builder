@@ -3,8 +3,10 @@
 import { db } from "@/app/db/db";
 import { favoriteCounts, favorites } from "@/app/db/schema";
 import { assertAuthenticated } from "@/lib/auth-utils";
+import { stripe } from "@/lib/stripe";
 import { eq, and, sql } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 //
 export async function toggleFavoriteMemeAction(
@@ -51,4 +53,29 @@ export async function toggleFavoriteMemeAction(
   }
 
   revalidatePath(pathToRevalidate);
+}
+
+// payment
+export async function paymentAction(formData: FormData): Promise<void> {
+  const price = Number(formData.get("price"));
+
+  const line_items = [
+    {
+      price_data: {
+        currency: "usd",
+        product_data: { name: "Pay for meme" },
+        unit_amount: price * 100,
+      },
+      quantity: 1,
+    },
+  ];
+
+  const session = await stripe.checkout.sessions.create({
+    payment_method_types: ["card"],
+    line_items,
+    mode: "payment",
+    success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success`,
+  });
+
+  redirect(session.url!);
 }
