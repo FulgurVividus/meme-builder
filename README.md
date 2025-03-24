@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# MemeIt 🎭
 
-## Getting Started
+## Overview 👀
 
-First, run the development server:
+MemeIt is a full-stack web application designed as an online platform for creating and sharing memes. Users can upload images, customize them with text and filters, and download their creations. The platform supports authentication, meme favoriting, likes, and payments via Stripe.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## University Project 🎓
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **University**: Westminster International University in Tashkent (WIUT)
+- **Class**: Business Information Systems
+- **Project Type**: Diploma Project
+- **Student ID**: 00017431
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Tech Stack 🛠️
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Next.js** – React-based framework for full-stack development.
+- **TypeScript** – Enhancing JavaScript with static typing.
+- **Tailwind CSS** – Utility-first CSS framework for styling.
+- **Shadcn UI** – Modern UI components.
+- **Drizzle ORM** – Database management and query handling.
+- **Neon (PostgreSQL)** – Cloud-based database storage.
+- **NextAuth.js (Auth.js)** – Secure authentication system.
+- **ImageKit** – Optimized image handling and transformations.
+- **Vercel** – Deployment platform for seamless hosting.
+- **Stripe** – Payment processing integration.
 
-## Learn More
+## Features ✨
 
-To learn more about Next.js, take a look at the following resources:
+- **Dark/Light/System Mode** – Choose between different theme preferences.
+- **Search Memes** – Find memes easily through search functionality.
+- **Upload & Create** – Upload an image and transform it into a meme.
+- **Customization** – Modify text, color, position, and apply filters.
+- **Download Meme** – Save created memes directly to your device.
+- **Favorite/Unfavorite** – Add memes to favorites for quick access.
+- **Likes Count** – Track the popularity of memes.
+- **Authentication** – Secure sign-in and sign-out with NextAuth.js.
+- **Payments via Stripe** – Handle transactions smoothly.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deployment 🌐
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+MemeIt is hosted on **Vercel**, ensuring optimal performance and availability.
 
-## Deploy on Vercel
+## Prerequisites 🚦
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Ensure you have the following installed:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Node.js** (v18 or later)
+- **npm** or **yarn**
