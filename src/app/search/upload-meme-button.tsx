@@ -78,7 +78,7 @@ export default function UploadMemeButton() {
                   onError={(error) => {
                     setIsUploading(false);
                     console.log("Upload failed:", error);
-                    alert("Upload failed.");
+                    alert(`Upload failed: ${error.message || "Unknown error"}`);
                   }}
                   onSuccess={(response) => {
                     setIsUploading(false);

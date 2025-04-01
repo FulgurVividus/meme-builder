@@ -4,8 +4,8 @@ import { ImageKitProvider } from "imagekitio-next";
 import React from "react";
 import { ThemeProvider } from "./theme-provider";
 
-const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY;
-export const urlEndpoint = process.env.NEXT_PUBLIC_URL_ENDPOINT;
+const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY!;
+export const urlEndpoint = process.env.NEXT_PUBLIC_URL_ENDPOINT!;
 
 // will talk to local API
 const authenticator = async () => {
