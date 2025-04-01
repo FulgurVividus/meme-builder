@@ -72,12 +72,13 @@ export default function UploadMemeButton() {
                 </div>
 
                 <IKUpload
-                  fileName="test-upload.png"
+                  fileName={`${displayName}.png`}
                   customMetadata={{ displayName }}
                   tags={[displayName, ...tags.split(",")]}
                   onError={(error) => {
                     setIsUploading(false);
-                    console.log(error);
+                    console.log("Upload failed:", error);
+                    alert("Upload failed.");
                   }}
                   onSuccess={(response) => {
                     setIsUploading(false);
