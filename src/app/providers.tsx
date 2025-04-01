@@ -10,7 +10,8 @@ export const urlEndpoint = process.env.NEXT_PUBLIC_URL_ENDPOINT!;
 // will talk to local API
 const authenticator = async () => {
   try {
-    const response = await fetch("http://localhost:3000/api/auth");
+    // const response = await fetch("http://localhost:3000/api/auth");
+    const response = await fetch("https://meme-it-rosy.vercel.app/api/auth");
 
     if (!response.ok) {
       const errorText = await response.text();

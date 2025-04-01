@@ -72,8 +72,6 @@ export default function UploadMemeButton() {
                 </div>
 
                 <IKUpload
-                  publicKey="public_iyiB9R6nB3kpWmOoQlCrwMiPr7I="
-                  urlEndpoint="https://ik.imagekit.io/nool8u0jd"
                   fileName={`${displayName}.png`}
                   customMetadata={{ displayName }}
                   tags={[displayName, ...tags.split(",")]}
