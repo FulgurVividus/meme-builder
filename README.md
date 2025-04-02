@@ -1,15 +1,8 @@
-# MemeIt 🎭
+# MemeIt (beta) 🎭
 
 ## Overview 👀
 
 MemeIt is a full-stack web application designed as an online platform for creating and sharing memes. Users can upload images, customize them with text and filters, and download their creations. The platform supports authentication, meme favoriting, likes, and payments via Stripe.
-
-## University Project 🎓
-
-- **University**: Westminster International University in Tashkent (WIUT)
-- **Class**: Business Information Systems
-- **Project Type**: Diploma Project
-- **Student ID**: 00017431
 
 ## Tech Stack 🛠️
 
